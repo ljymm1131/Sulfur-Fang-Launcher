@@ -61,14 +61,14 @@
       }
     ]
   },
-  "productName": "Axolotl Launcher",
+  "productName": "MiniLauncher",
   "version": "../app-frontend/package.json",
-  "mainBinaryName": "Axolotl Launcher",
-  "identifier": "red.ghs.axolotl",
+  "mainBinaryName": "MiniLauncher",
+  "identifier": "org.minilauncher.app",
   "plugins": {
     "deep-link": {
       "desktop": {
-        "schemes": ["axolotl"]
+        "schemes": ["minilauncher"]
       },
       "mobile": []
     }
@@ -83,7 +83,7 @@
         "fullscreen": false,
         "height": 800,
         "resizable": true,
-        "title": "Axolotl Launcher",
+        "title": "MiniLauncher",
         "label": "main",
         "width": 1280,
         "minHeight": 700,
