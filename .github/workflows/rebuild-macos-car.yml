@@ -17,10 +17,13 @@ jobs:
           xcodebuild -version
           xcrun --find actool
 
-      - name: Rename icon layers to Sulfur Fang
+      - name: Prepare Icon.icon (temporary, repo path untouched)
         shell: bash
         run: |
-          ICON="apps/app/icons/Axolotl.icon"
+          SRC="apps/app/icons/Axolotl.icon"
+          ICON="/tmp/Icon.icon"
+          rm -rf "$ICON"
+          cp -R "$SRC" "$ICON"
           ASSETS="$ICON/Assets"
           cp "$ASSETS/AXL(fixed).svg" "$ASSETS/SulfurFang.svg"
           rm "$ASSETS/AXL(fixed).svg"
@@ -34,13 +37,13 @@ jobs:
                   l["name"] = "Sulfur Fang"
           json.dump(d, open(p, "w"), indent=2)
           PY
-          echo "--- icon.json ---"
+          echo "--- prepared icon.json ---"
           cat "$ICON/icon.json"
 
       - name: Compile .icon into Assets.car
         shell: bash
         run: |
-          ICON="apps/app/icons/Axolotl.icon"
+          ICON="/tmp/Icon.icon"
           OUT=/tmp/carout
           mkdir -p "$OUT"
           xcrun actool "$ICON" \
