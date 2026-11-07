@@ -2,7 +2,7 @@
   "fill": {
     "linear-gradient": [
       "display-p3:1.00000,1.00000,1.00000,1.00000",
-      "display-p3:0.99608,0.83922,0.92157,1.00000"
+      "display-p3:1.00000,1.00000,1.00000,1.00000"
     ],
     "orientation": {
       "start": {
@@ -24,7 +24,10 @@
           "name": "AXL(fixed)",
           "position": {
             "scale": 1.6,
-            "translation-in-points": [0, -21]
+            "translation-in-points": [
+              0,
+              -21
+            ]
           }
         }
       ],
@@ -39,6 +42,8 @@
     }
   ],
   "supported-platforms": {
-    "squares": ["macOS"]
+    "squares": [
+      "macOS"
+    ]
   }
 }

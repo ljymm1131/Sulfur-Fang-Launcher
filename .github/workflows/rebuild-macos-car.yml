@@ -1,0 +1,92 @@
+name: rebuild-macos-car
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-26
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Show toolchain
+        run: |
+          xcodebuild -version
+          xcrun --find actool
+          xcrun --find assetutil
+
+      - name: Inspect original car for reference
+        continue-on-error: true
+        run: |
+          xcrun --sdk macosx assetutil --info apps/app/icons/AxolotlAssets.car > /tmp/original-car-info.json || true
+          head -c 1500 /tmp/original-car-info.json || true
+
+      - name: Compile .icon into Assets.car
+        shell: bash
+        run: |
+          set +e
+          ICON="apps/app/icons/Axolotl.icon"
+          OUT=/tmp/carout
+          mkdir -p "$OUT"
+
+          compile() {
+            rm -rf "$OUT"/*
+            xcrun actool "$ICON" \
+              --compile "$OUT" \
+              --platform macosx \
+              --minimum-deployment-target 26.0 \
+              --target-device mac \
+              --include-all-app-icons \
+              --enable-on-demand-resources NO \
+              --development-region en \
+              --output-partial-info-plist "$OUT/info.plist" \
+              "$@" 2>&1 | tee -a /tmp/actool.log
+            return ${PIPESTATUS[0]}
+          }
+
+          echo "=== attempt 1: embedded-image SVG, app-icon AxolotlAssets ==="
+          compile --app-icon AxolotlAssets
+          if [ ! -f "$OUT/Assets.car" ]; then
+            echo "=== attempt 2: plain PNG layer ==="
+            cp apps/app/icons/icon.png "$ICON/Assets/sulfur.png"
+            python3 - "$ICON/icon.json" <<'PY'
+          import json, sys
+          p = sys.argv[1]
+          d = json.load(open(p))
+          d.pop("fill", None)
+          for g in d.get("groups", []):
+              for l in g.get("layers", []):
+                  l["image-name"] = "sulfur.png"
+                  l["name"] = "Sulfur Fang"
+          json.dump(d, open(p, "w"), indent=2)
+          PY
+            compile --app-icon AxolotlAssets
+          fi
+          if [ ! -f "$OUT/Assets.car" ]; then
+            echo "=== attempt 3: no --app-icon ==="
+            compile
+          fi
+
+          echo "=== output ==="
+          ls -la "$OUT"
+          if [ -f "$OUT/Assets.car" ]; then
+            xcrun --sdk macosx assetutil --info "$OUT/Assets.car" > /tmp/new-car-info.json || true
+            echo "CAR OK"
+          else
+            echo "CAR FAILED"
+          fi
+
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: sulfur-car
+          if-no-files-found: warn
+          path: |
+            /tmp/carout/Assets.car
+            /tmp/carout/AxolotlAssets.icns
+            /tmp/actool.log
+            /tmp/new-car-info.json
+            /tmp/original-car-info.json
