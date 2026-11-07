@@ -1,8 +1,8 @@
 # 贡献指南 (Contributing)
 
-感谢你对 MiniLauncher 及其相关内容感兴趣！在提交代码前，请先阅读以下指南。
+感谢你对 Sulfur Fang Launcher 及其相关内容感兴趣！在提交代码前，请先阅读以下指南。
 
-> **衍生作品声明**：MiniLauncher 是基于 [Axolotl Launcher](https://github.com/Axolotl-Launcher/Axolotl)（GPL-3.0-only）修改而来的衍生作品。本指南中涉及的上游链接与归属均在 [COPYING.md](COPYING.md) 中说明。
+> **衍生作品声明**：Sulfur Fang Launcher 是基于 [Axolotl Launcher](https://github.com/Axolotl-Launcher/Axolotl)（GPL-3.0-only）修改而来的衍生作品。本指南中涉及的上游链接与归属均在 [COPYING.md](COPYING.md) 中说明。
 
 我们希望所有参与者都能在友善、包容的环境中协作。请先阅读[行为准则 (CODE_OF_CONDUCT.md)](CODE_OF_CONDUCT.md)，了解社区期望和问题报告方式。
 
@@ -62,7 +62,7 @@ Remove-Item -Recurse -Force target\debug
 
 ### 应用数据目录与数据库迁移
 
-启动器把设置、数据库、日志与缓存放在同一个数据目录下，Windows 上是 `%APPDATA%\org.minilauncher.app`，其中按更新通道分为 `release\app.db` 与 `beta\app.db`。
+启动器把设置、数据库、日志与缓存放在同一个数据目录下，Windows 上是 `%APPDATA%\org.sulfurfang.app`，其中按更新通道分为 `release\app.db` 与 `beta\app.db`。
 
 **本地构建与已安装的正式版共用这份数据目录。** 本地跑一次桌面应用，改动的就是正在使用的那份数据库，因此：
 
@@ -73,7 +73,7 @@ Remove-Item -Recurse -Force target\debug
 隔离数据目录有两种方式，推荐在开发时始终使用其中一种：
 
 ```powershell
-# 构建期：该构建写入 org.minilauncher.app-<后缀>，与正式版互不影响
+# 构建期：该构建写入 org.sulfurfang.app-<后缀>，与正式版互不影响
 $env:AXOLOTL_DATA_DIR_SUFFIX = "pr538"
 pnpm app:build
 
@@ -115,14 +115,14 @@ node scripts/axolotl/downgrade-app-db.mjs --suffix pr538 --to 20260903120000 --a
 
 ## 仓库范围
 
-MiniLauncher 的产品改动主要位于：
+Sulfur Fang Launcher 的产品改动主要位于：
 
 - `apps/app-frontend`
 - `apps/app`
 - `packages/app-lib`
 - 上述包所需的共享 UI 与资源包
 
-本仓库**不包含** Modrinth 网站、Labrinth API 或其运营服务源码。桌面端保留对 Modrinth 公共 API 的客户端兼容；如果需要参考上游实现，请仅手动挑选与 MiniLauncher 产品相关的改动，避免直接合并无关代码。
+本仓库**不包含** Modrinth 网站、Labrinth API 或其运营服务源码。桌面端保留对 Modrinth 公共 API 的客户端兼容；如果需要参考上游实现，请仅手动挑选与 Sulfur Fang Launcher 产品相关的改动，避免直接合并无关代码。
 
 ## 构建与发布
 
@@ -144,7 +144,7 @@ Windows 安装包由 [`.github/workflows/build-windows.yml`](.github/workflows/b
 如需发布带版本号的 Release，版本号以 Git 标签为准，必须符合[语义化版本格式](https://semver.org/lang/zh-CN/)：
 
 ```powershell
-git tag -a v1.2.3 -m "MiniLauncher 1.2.3"
+git tag -a v1.2.3 -m "Sulfur Fang Launcher 1.2.3"
 git push origin v1.2.3
 ```
 

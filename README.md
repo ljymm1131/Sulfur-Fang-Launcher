@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="./apps/app/icons/128x128.png" width="128" height="128" alt="MiniLauncher Logo" />
-  <h1>MiniLauncher</h1>
-  <p><strong>次世代 Minecraft 桌面客户端，全能、美观、全平台覆盖。</strong></p>
+  <img src="./apps/app/icons/128x128.png" width="128" height="128" alt="Sulfur Fang Launcher Logo" />
+  <h1>硫方怪启动器</h1>
+  <p><strong>Sulfur Fang Launcher · 次世代 Minecraft 桌面客户端，全能、美观、全平台覆盖。</strong></p>
 
   <p>
     <a href="https://github.com/ljymm1131/mimicl/actions">
@@ -28,9 +28,9 @@
 
 ---
 
-**MiniLauncher** 是一款免费、开源、跨平台的 Minecraft Java 版第三方启动器，支持在一个客户端中搜索、安装和更新来自 Modrinth 与 CurseForge 的模组、整合包、资源包和光影，并提供实例管理、多种账户认证、个性化外观与实验室工具。
+**Sulfur Fang Launcher** 是一款免费、开源、跨平台的 Minecraft Java 版第三方启动器，支持在一个客户端中搜索、安装和更新来自 Modrinth 与 CurseForge 的模组、整合包、资源包和光影，并提供实例管理、多种账户认证、个性化外观与实验室工具。
 
-> **衍生作品声明**：MiniLauncher 基于 [Axolotl Launcher](https://github.com/Axolotl-Launcher/Axolotl)（原版权 Garbage Human Studio，GPL-3.0-only）修改而来，沿用 GPL-3.0 许可证。原项目的版权与许可证声明完整保留，详见 [COPYING.md](COPYING.md)。
+> **衍生作品声明**：Sulfur Fang Launcher 基于 [Axolotl Launcher](https://github.com/Axolotl-Launcher/Axolotl)（原版权 Garbage Human Studio，GPL-3.0-only）修改而来，沿用 GPL-3.0 许可证。原项目的版权与许可证声明完整保留，详见 [COPYING.md](COPYING.md)。
 
 本项目基于 [Modrinth App](https://github.com/modrinth/code) 构建，移除了不适用于本项目的商业化模块，专注于提供纯净、无广告的桌面启动体验。
 
@@ -59,10 +59,10 @@ _(注：本项目是调用 Modrinth 公开 API 的独立客户端，与 Rinth, I
 
 ## 参与项目开发
 
-MiniLauncher 的进步离不开社区的反馈与贡献。
+Sulfur Fang Launcher 的进步离不开社区的反馈与贡献。
 如果遇到 Bug 或有新的功能点子，欢迎提交 Issue。如需搭建本地开发环境或查阅打包发布规范，请阅读详细的 [贡献指南 (CONTRIBUTING.md)](CONTRIBUTING.md)。
 参与社区和贡献代码前，也请先阅读[行为准则 (CODE_OF_CONDUCT.md)](CODE_OF_CONDUCT.md)。
 
 ---
 
-<sub>MiniLauncher 是 Axolotl Launcher 的衍生修改版本，以 GPL-3.0-only 许可证发布。</sub>
+<sub>Sulfur Fang Launcher 是 Axolotl Launcher 的衍生修改版本，以 GPL-3.0-only 许可证发布。</sub>

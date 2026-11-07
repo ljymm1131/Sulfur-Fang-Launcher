@@ -1,11 +1,13 @@
 # 复制与许可证说明 (Copying)
 
-MiniLauncher 是基于 [Axolotl Launcher](https://github.com/Axolotl-Launcher/Axolotl) 修改而来的衍生作品，沿用其 **GPL-3.0-only** 许可证发布。
+Sulfur Fang Launcher 是基于 [Axolotl Launcher](https://github.com/Axolotl-Launcher/Axolotl) 修改而来的衍生作品，沿用其 **GPL-3.0-only** 许可证发布。
 各软件包保留其各自的上游许可证；桌面端软件包以 GPL-3.0-only 发布，并包含包级别的复制声明。
 
-Modrinth 的商标、Logo、封面图及其他受限品牌内容不属于 MiniLauncher 品牌，且不得通过上游同步被重新引入。
+Modrinth 的商标、Logo、封面图及其他受限品牌内容不属于 Sulfur Fang Launcher 品牌，且不得通过上游同步被重新引入。
 
-MiniLauncher 的桌面端中文内容搜索包含一份来自 Plain Craft Launcher（PCL）提交 `fd7b722346523d9574678a8a4a02928d31cd1e0c` 的、未修改的 `WikiEntries.txt` 快照。
+原 Axolotl Launcher 的独立品牌资产与 Garbage Human Studio 的归属声明不属于上游 Modrinth 项目，且在本衍生版本中予以完整保留；Sulfur Fang Launcher 的独立品牌资产与本修改版本的声明另行维护，不得通过上游同步被覆盖或移除。
+
+Sulfur Fang Launcher 的桌面端中文内容搜索包含一份来自 Plain Craft Launcher（PCL）提交 `fd7b722346523d9574678a8a4a02928d31cd1e0c` 的、未修改的 `WikiEntries.txt` 快照。
 Plain Craft Launcher 版权归成都瓜皮龙科技有限公司所有，依据 [PCL 有限分发许可证](https://github.com/Meloong-Git/PCL/blob/fd7b722346523d9574678a8a4a02928d31cd1e0c/LICENCE) 分发。
 该快照包含由 [MC 百科](https://www.mcmod.cn/) 贡献的中文项目名称信息。
 
