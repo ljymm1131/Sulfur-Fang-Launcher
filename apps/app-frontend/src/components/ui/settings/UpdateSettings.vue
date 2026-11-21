@@ -9,7 +9,6 @@ import {
     useVIntl,
 } from '@modrinth/ui'
 import { getVersion } from '@tauri-apps/api/app'
-import { fetch as tauriFetch } from '@tauri-apps/plugin-http'
 import { inject, nextTick, ref, watch } from 'vue'
 
 import UpdateAnnouncementHistory from '@/components/ui/announcement/UpdateAnnouncementHistory.vue'
@@ -25,7 +24,7 @@ import {
     type UpdateChannel,
 } from '@/helpers/settings.ts'
 import { isDev, restartApp } from '@/helpers/utils.js'
-import { type AppUpdateCheckResult, checkForAppUpdate } from '@/providers/app-update.ts'
+import { type AppUpdateCheckResult } from '@/providers/app-update.ts'
 
 import SettingsRow from './SettingsRow.vue'
 import SettingsSection from './SettingsSection.vue'
@@ -67,11 +66,11 @@ const messages = defineMessages({
     },
     checkTitle: {
         id: 'app.settings.updates.check.title',
-        defaultMessage: 'Check for updates',
+        defaultMessage: 'Get update from GitHub',
     },
     description: {
         id: 'app.settings.updates.channel.description',
-        defaultMessage: 'Choose which launcher versions Axolotl receives.',
+        defaultMessage: 'Choose which launcher versions Sulfur Fang receives.',
     },
     channelLabel: {
         id: 'app.settings.updates.channel.label',
@@ -100,7 +99,7 @@ const messages = defineMessages({
     },
     check: {
         id: 'app.settings.updates.check',
-        defaultMessage: 'Check for updates',
+        defaultMessage: 'Get update from GitHub',
     },
     checking: {
         id: 'app.settings.updates.checking',
@@ -112,7 +111,7 @@ const messages = defineMessages({
     },
     upToDate: {
         id: 'app.settings.updates.up-to-date',
-        defaultMessage: 'Axolotl is up to date.',
+        defaultMessage: 'Sulfur Fang is up to date.',
     },
     disabled: {
         id: 'app.settings.updates.disabled',
@@ -157,7 +156,7 @@ const messages = defineMessages({
     restartDescription: {
         id: 'app.settings.updates.channel.restart-description',
         defaultMessage:
-            'Restart Axolotl now to start using the new update channel, or restart manually later.',
+            'Restart Sulfur Fang now to start using the new update channel, or restart manually later.',
     },
     restartDevelopmentDescription: {
         id: 'app.settings.updates.channel.restart-development-description',
@@ -264,12 +263,12 @@ const messages = defineMessages({
     databaseOperationActiveTarget: {
         id: 'app.settings.updates.database-operation.active-target',
         defaultMessage:
-            'Cannot overwrite the database currently in use. Restart Axolotl and switch channels first.',
+            'Cannot overwrite the database currently in use. Restart Sulfur Fang and switch channels first.',
     },
     databaseOperationFailed: {
         id: 'app.settings.updates.database-operation.failed',
         defaultMessage:
-            'The database could not be copied. Please make sure Axolotl is not using the target database.',
+            'The database could not be copied. Please make sure Sulfur Fang is not using the target database.',
     },
     databaseOperationSuccess: {
         id: 'app.settings.updates.database-operation.success',
@@ -281,22 +280,12 @@ const messages = defineMessages({
     },
 })
 
+// Sulfur Fang Launcher is a community fork and does not ship an auto-update
+// server. Latest-version lookup is disabled; users download from GitHub Releases.
+const RELEASES_URL = 'https://github.com/ljymm1131/Sulfur-Fang-Launcher/releases'
+
 async function loadLatestChannelVersions() {
-    const versions = await Promise.all(
-        (['release', 'beta'] as const).map(async (channel) => {
-            try {
-                const response = await tauriFetch(
-                    `https://update.axlmc.org/latest?channel=${channel}`,
-                )
-                if (!response.ok) return [channel, undefined] as const
-                const payload = (await response.json()) as { version?: string }
-                return [channel, payload.version] as const
-            } catch {
-                return [channel, undefined] as const
-            }
-        }),
-    )
-    latestChannelVersions.value = Object.fromEntries(versions.filter(([, version]) => version))
+    latestChannelVersions.value = {}
     latestChannelVersionsLoaded.value = true
 }
 
@@ -388,17 +377,9 @@ async function saveUpdatePreferences() {
 }
 
 async function checkForUpdates() {
-    checking.value = true
-    checkResult.value = null
-
-    try {
-        checkResult.value = await checkForAppUpdate()
-    } catch (error) {
-        checkResult.value = 'failed'
-        handleError(error)
-    } finally {
-        checking.value = false
-    }
+    // No auto-update server for this fork: open the GitHub Releases page instead.
+    // Tauri's WebView hands external links to the system browser.
+    window.open(RELEASES_URL, '_blank', 'noopener,noreferrer')
 }
 
 function requestDatabaseOperation() {

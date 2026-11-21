@@ -1,14 +1,14 @@
-pub const PRODUCT_NAME: &str = "MiniLauncher";
-pub const SHORT_PRODUCT_NAME: &str = "MiniLauncher";
-pub const WEBSITE: &str = "https://minilauncher.org";
-pub const BUNDLE_IDENTIFIER: &str = "org.minilauncher.app";
-pub const DEEP_LINK_SCHEME: &str = "minilauncher";
+pub const PRODUCT_NAME: &str = "Sulfur Fang Launcher";
+pub const SHORT_PRODUCT_NAME: &str = "Sulfur Fang";
+pub const WEBSITE: &str = "https://sulfurfang.org";
+pub const BUNDLE_IDENTIFIER: &str = "org.sulfurfang.app";
+pub const DEEP_LINK_SCHEME: &str = "sulfurfang";
 
 /// Longest accepted data directory suffix; enough to name a branch or a build.
 const MAX_DATA_DIR_SUFFIX_LEN: usize = 32;
 
 pub fn user_agent(version: &str, os: &str) -> String {
-    format!("MiniLauncher/{version} ({os})")
+    format!("Sulfur Fang Launcher/{version} ({os})")
 }
 
 /// Name of the directory the launcher keeps its settings, databases and logs in.
@@ -64,7 +64,7 @@ mod tests {
     fn user_agent_is_unique_and_contains_no_contact_information() {
         let user_agent = user_agent("1.2.3", "windows");
 
-        assert_eq!(user_agent, "MiniLauncher/1.2.3 (windows)");
+        assert_eq!(user_agent, "Sulfur Fang Launcher/1.2.3 (windows)");
         assert!(!user_agent.contains("ghs.red"));
         assert!(!user_agent.contains("http"));
         assert!(!user_agent.contains('@'));
@@ -73,20 +73,20 @@ mod tests {
     #[test]
     fn data_dir_identifier_without_suffix_keeps_the_identifier() {
         assert_eq!(
-            data_dir_identifier("org.minilauncher.app", None),
-            "org.minilauncher.app"
+            data_dir_identifier("org.sulfurfang.app", None),
+            "org.sulfurfang.app"
         );
     }
 
     #[test]
     fn data_dir_identifier_appends_a_readable_suffix() {
         for (suffix, expected) in [
-            ("pr538", "org.minilauncher.app-pr538"),
-            ("fix_issue_538", "org.minilauncher.app-fix_issue_538"),
-            ("v1.2.3", "org.minilauncher.app-v1.2.3"),
+            ("pr538", "org.sulfurfang.app-pr538"),
+            ("fix_issue_538", "org.sulfurfang.app-fix_issue_538"),
+            ("v1.2.3", "org.sulfurfang.app-v1.2.3"),
         ] {
             assert_eq!(
-                data_dir_identifier("org.minilauncher.app", Some(suffix)),
+                data_dir_identifier("org.sulfurfang.app", Some(suffix)),
                 expected,
                 "unexpected identifier for suffix {suffix:?}"
             );
@@ -109,7 +109,7 @@ mod tests {
             "..-.-",
         ] {
             let identifier =
-                data_dir_identifier("org.minilauncher.app", Some(suffix));
+                data_dir_identifier("org.sulfurfang.app", Some(suffix));
 
             assert!(
                 !identifier.contains(['/', '\\', ':']),
@@ -121,7 +121,7 @@ mod tests {
             );
 
             let remainder = identifier
-                .strip_prefix("org.minilauncher.app-")
+                .strip_prefix("org.sulfurfang.app-")
                 .map_or(identifier.as_str(), |remainder| remainder);
             assert!(
                 !remainder.is_empty() && remainder != "." && remainder != "..",
@@ -136,8 +136,8 @@ mod tests {
         // one. The identifier always carries the prefix, so it never is.
         for suffix in ["CON", "NUL", "PRN", "AUX", "COM1", "LPT1"] {
             assert_eq!(
-                data_dir_identifier("org.minilauncher.app", Some(suffix)),
-                format!("org.minilauncher.app-{suffix}")
+                data_dir_identifier("org.sulfurfang.app", Some(suffix)),
+                format!("org.sulfurfang.app-{suffix}")
             );
         }
     }
@@ -145,18 +145,18 @@ mod tests {
     #[test]
     fn data_dir_identifier_drops_characters_that_are_unsafe_in_a_path() {
         for (suffix, expected) in [
-            ("a b", "org.minilauncher.app-ab"),
-            ("a:b", "org.minilauncher.app-ab"),
+            ("a b", "org.sulfurfang.app-ab"),
+            ("a:b", "org.sulfurfang.app-ab"),
             // Fullwidth solidus: not a separator the filesystem honours, but no
             // more welcome in a directory name than any other non-ASCII.
-            ("a\u{ff0f}b", "org.minilauncher.app-ab"),
+            ("a\u{ff0f}b", "org.sulfurfang.app-ab"),
             // Every non-ASCII character goes, so a suffix typed in another
             // script keeps only its ASCII part - which may be nothing at all.
-            ("版本v2", "org.minilauncher.app-v2"),
-            ("版本", "org.minilauncher.app"),
+            ("版本v2", "org.sulfurfang.app-v2"),
+            ("版本", "org.sulfurfang.app"),
         ] {
             assert_eq!(
-                data_dir_identifier("org.minilauncher.app", Some(suffix)),
+                data_dir_identifier("org.sulfurfang.app", Some(suffix)),
                 expected,
                 "unexpected identifier for suffix {suffix:?}"
             );
@@ -170,8 +170,8 @@ mod tests {
         let suffix = format!("{}abc", ".".repeat(40));
 
         assert_eq!(
-            data_dir_identifier("org.minilauncher.app", Some(&suffix)),
-            "org.minilauncher.app-abc"
+            data_dir_identifier("org.sulfurfang.app", Some(&suffix)),
+            "org.sulfurfang.app-abc"
         );
     }
 
@@ -179,8 +179,8 @@ mod tests {
     fn data_dir_identifier_ignores_unusable_suffixes() {
         for suffix in ["", "   ", "..", "--", "///", "..-.-"] {
             assert_eq!(
-                data_dir_identifier("org.minilauncher.app", Some(suffix)),
-                "org.minilauncher.app",
+                data_dir_identifier("org.sulfurfang.app", Some(suffix)),
+                "org.sulfurfang.app",
                 "suffix {suffix:?} should have been ignored"
             );
         }
@@ -189,11 +189,11 @@ mod tests {
     #[test]
     fn data_dir_identifier_bounds_the_suffix_length() {
         let identifier =
-            data_dir_identifier("org.minilauncher.app", Some(&"a".repeat(200)));
+            data_dir_identifier("org.sulfurfang.app", Some(&"a".repeat(200)));
 
         assert_eq!(
             identifier,
-            format!("org.minilauncher.app-{}", "a".repeat(MAX_DATA_DIR_SUFFIX_LEN))
+            format!("org.sulfurfang.app-{}", "a".repeat(MAX_DATA_DIR_SUFFIX_LEN))
         );
     }
 }

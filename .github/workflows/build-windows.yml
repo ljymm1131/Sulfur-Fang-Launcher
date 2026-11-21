@@ -1,4 +1,4 @@
-name: Build MiniLauncher (Windows)
+name: Build Sulfur Fang Launcher (Windows)
 
 on:
   workflow_dispatch:
@@ -100,7 +100,7 @@ jobs:
       - name: Upload installer artifacts
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: minilauncher-windows
+          name: sulfurfang-windows
           path: target/ci-installers/**
           if-no-files-found: error
           retention-days: 7
