@@ -70,6 +70,15 @@ ${StrLoc}
 !define ESTIMATEDSIZE "{{estimated_size}}"
 !define STARTMENUFOLDER "{{start_menu_folder}}"
 
+; --- Sulfur Fang build guard ---
+; Refuse to compile an installer that still carries the upstream Axolotl
+; identity. Otherwise a build from the wrong branch would share the add/remove
+; programs entry, application data directory and uninstall registration with
+; Axolotl, and uninstalling one launcher would remove the other one's files.
+!if "${BUNDLEID}" == "red.ghs.axolotl"
+  !error "Refusing to build: bundle id is still the upstream Axolotl identifier"
+!endif
+
 !define AXL_BACKGROUND 16181C
 !define AXL_SURFACE 1D1F23
 !define AXL_RAISED 27292E
@@ -1191,6 +1200,10 @@ Section Install
   WriteRegStr SHCTX "${UNINSTKEY}" "Publisher" "${MANUFACTURER}"
   WriteRegStr SHCTX "${UNINSTKEY}" "InstallLocation" "$\"$INSTDIR$\""
   WriteRegStr SHCTX "${UNINSTKEY}" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
+  ; Silent/unattended uninstall entry. Windows Settings, winget, Chocolatey
+  ; and other automation look for QuietUninstallString; without it an install
+  ; is reported as "cannot be uninstalled" by those tools.
+  WriteRegStr SHCTX "${UNINSTKEY}" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
   WriteRegDWORD SHCTX "${UNINSTKEY}" "NoModify" "1"
   WriteRegDWORD SHCTX "${UNINSTKEY}" "NoRepair" "1"
 
@@ -1198,6 +1211,13 @@ Section Install
   IntOp $0 $0 + ${ESTIMATEDSIZE}
   IntFmt $0 "0x%08X" $0
   WriteRegDWORD SHCTX "${UNINSTKEY}" "EstimatedSize" "$0"
+
+  ; Complete the add/remove-programs registration. Several installers and
+  ; management tools read these fields to decide whether an entry is valid.
+  GetTime $0 "%Y%m%d"
+  WriteRegStr SHCTX "${UNINSTKEY}" "InstallDate" "$0"
+  WriteRegStr SHCTX "${UNINSTKEY}" "InstallSource" "$\"$INSTDIR$\""
+  WriteRegStr SHCTX "${UNINSTKEY}" "UninstallerPath" "$\"$INSTDIR\uninstall.exe$\""
 
   !if "${HOMEPAGE}" != ""
     WriteRegStr SHCTX "${UNINSTKEY}" "URLInfoAbout" "${HOMEPAGE}"
