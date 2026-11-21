@@ -79,6 +79,9 @@ ${StrLoc}
   !error "Refusing to build: bundle id is still the upstream Axolotl identifier"
 !endif
 
+; Build date for the InstallDate registry value (NSIS compile-time directive).
+!define /date SF_INSTALLDATE "%Y%m%d"
+
 !define AXL_BACKGROUND 16181C
 !define AXL_SURFACE 1D1F23
 !define AXL_RAISED 27292E
@@ -1214,8 +1217,7 @@ Section Install
 
   ; Complete the add/remove-programs registration. Several installers and
   ; management tools read these fields to decide whether an entry is valid.
-  GetTime $0 "%Y%m%d"
-  WriteRegStr SHCTX "${UNINSTKEY}" "InstallDate" "$0"
+  WriteRegStr SHCTX "${UNINSTKEY}" "InstallDate" "${SF_INSTALLDATE}"
   WriteRegStr SHCTX "${UNINSTKEY}" "InstallSource" "$\"$INSTDIR$\""
   WriteRegStr SHCTX "${UNINSTKEY}" "UninstallerPath" "$\"$INSTDIR\uninstall.exe$\""
 
