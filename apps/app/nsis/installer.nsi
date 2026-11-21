@@ -70,6 +70,15 @@ ${StrLoc}
 !define ESTIMATEDSIZE "{{estimated_size}}"
 !define STARTMENUFOLDER "{{start_menu_folder}}"
 
+; --- Sulfur Fang build guard ---
+; Refuse to compile an installer that still carries the upstream Axolotl
+; identity. Otherwise a build from the wrong branch would share the add/remove
+; programs entry, application data directory and uninstall registration with
+; Axolotl, and uninstalling one launcher would remove the other one's files.
+!if "${BUNDLEID}" == "red.ghs.axolotl"
+  !error "Refusing to build: bundle id is still the upstream Axolotl identifier"
+!endif
+
 !define AXL_BACKGROUND 16181C
 !define AXL_SURFACE 1D1F23
 !define AXL_RAISED 27292E
@@ -706,7 +715,7 @@ Function PageLeaveOptions
     ${NSD_SetText} $OptionsError "$(axlResourceDirectoryNotWritable)"
     Abort
   ${EndIf}
-  FileWrite $0 "Axolotl Launcher"
+  FileWrite $0 "Sulfur Fang Launcher"
   FileClose $0
   Delete "$ResourceDir\.axolotl-write-test"
 FunctionEnd
@@ -850,7 +859,7 @@ FunctionEnd
   !include "{{this}}"
 {{/each}}
 
-LangString axlWelcomeTitle ${LANG_ENGLISH} "Install Axolotl Launcher"
+LangString axlWelcomeTitle ${LANG_ENGLISH} "Install Sulfur Fang Launcher"
 LangString axlWelcomeText ${LANG_ENGLISH} "A modern home for your Minecraft instances.$\r$\n$\r$\nVersion ${VERSION} · 64-bit · Current user"
 LangString axlStart ${LANG_ENGLISH} "Start"
 LangString axlOptionsTitle ${LANG_ENGLISH} "Installation settings"
@@ -860,7 +869,7 @@ LangString axlResourceDirectoryDescription ${LANG_ENGLISH} "Stores game instance
 LangString axlBrowse ${LANG_ENGLISH} "Browse..."
 LangString axlSelectInstallDirectory ${LANG_ENGLISH} "Select the program installation location"
 LangString axlSelectResourceDirectory ${LANG_ENGLISH} "Select the application directory"
-LangString axlExistingDirectoryNotice ${LANG_ENGLISH} "This directory already contains files. Axolotl will keep them."
+LangString axlExistingDirectoryNotice ${LANG_ENGLISH} "This directory already contains files. Sulfur Fang will keep them."
 LangString axlExistingInstallDirectoryPreserved ${LANG_ENGLISH} "Your existing application directory will be preserved. You can change it later in Settings > Resource management."
 LangString axlInstallButton ${LANG_ENGLISH} "Install"
 LangString axlBack ${LANG_ENGLISH} "Back"
@@ -868,12 +877,12 @@ LangString axlInstallDirectoryInvalid ${LANG_ENGLISH} "Choose an absolute progra
 LangString axlResourceDirectoryAbsolute ${LANG_ENGLISH} "Choose an absolute application directory."
 LangString axlResourceDirectoryRoot ${LANG_ENGLISH} "The root of a drive or network share cannot be used as the application directory."
 LangString axlResourceDirectoryInsideInstall ${LANG_ENGLISH} "The application directory must be separate from the program installation location."
-LangString axlResourceDirectoryNotWritable ${LANG_ENGLISH} "Axolotl cannot write to this application directory. Choose another location or change its permissions."
-LangString axlFinishTitle ${LANG_ENGLISH} "Axolotl Launcher is installed"
+LangString axlResourceDirectoryNotWritable ${LANG_ENGLISH} "Sulfur Fang cannot write to this application directory. Choose another location or change its permissions."
+LangString axlFinishTitle ${LANG_ENGLISH} "Sulfur Fang Launcher is installed"
 LangString axlFinishText ${LANG_ENGLISH} "Everything is ready. Your application directory is:$\r$\n$ResourceDir"
 LangString axlFinishButton ${LANG_ENGLISH} "Finish"
 
-LangString axlWelcomeTitle ${LANG_SIMPCHINESE} "安装 Axolotl Launcher"
+LangString axlWelcomeTitle ${LANG_SIMPCHINESE} "安装 Sulfur Fang Launcher"
 LangString axlWelcomeText ${LANG_SIMPCHINESE} "为你的 Minecraft 实例准备的现代化启动器。$\r$\n$\r$\n版本 ${VERSION} · 64 位 · 当前用户"
 LangString axlStart ${LANG_SIMPCHINESE} "开始"
 LangString axlOptionsTitle ${LANG_SIMPCHINESE} "安装设置"
@@ -883,7 +892,7 @@ LangString axlResourceDirectoryDescription ${LANG_SIMPCHINESE} "用于保存游�
 LangString axlBrowse ${LANG_SIMPCHINESE} "浏览..."
 LangString axlSelectInstallDirectory ${LANG_SIMPCHINESE} "选择程序安装位置"
 LangString axlSelectResourceDirectory ${LANG_SIMPCHINESE} "选择应用目录"
-LangString axlExistingDirectoryNotice ${LANG_SIMPCHINESE} "此目录中已有文件，Axolotl 会保留这些内容。"
+LangString axlExistingDirectoryNotice ${LANG_SIMPCHINESE} "此目录中已有文件，Sulfur Fang 会保留这些内容。"
 LangString axlExistingInstallDirectoryPreserved ${LANG_SIMPCHINESE} "将保留现有应用目录。之后仍可在“设置 > 资源管理”中修改。"
 LangString axlInstallButton ${LANG_SIMPCHINESE} "安装"
 LangString axlBack ${LANG_SIMPCHINESE} "上一步"
@@ -891,8 +900,8 @@ LangString axlInstallDirectoryInvalid ${LANG_SIMPCHINESE} "请选择有效的绝
 LangString axlResourceDirectoryAbsolute ${LANG_SIMPCHINESE} "请选择有效的绝对应用目录。"
 LangString axlResourceDirectoryRoot ${LANG_SIMPCHINESE} "不能将磁盘或网络共享根目录直接用作应用目录。"
 LangString axlResourceDirectoryInsideInstall ${LANG_SIMPCHINESE} "应用目录必须与程序安装位置分开。"
-LangString axlResourceDirectoryNotWritable ${LANG_SIMPCHINESE} "Axolotl 无法写入该应用目录，请更换位置或调整目录权限。"
-LangString axlFinishTitle ${LANG_SIMPCHINESE} "Axolotl Launcher 已安装"
+LangString axlResourceDirectoryNotWritable ${LANG_SIMPCHINESE} "Sulfur Fang 无法写入该应用目录，请更换位置或调整目录权限。"
+LangString axlFinishTitle ${LANG_SIMPCHINESE} "Sulfur Fang Launcher 已安装"
 LangString axlFinishText ${LANG_SIMPCHINESE} "一切准备就绪。当前应用目录：$\r$\n$ResourceDir"
 LangString axlFinishButton ${LANG_SIMPCHINESE} "完成"
 
@@ -1191,6 +1200,10 @@ Section Install
   WriteRegStr SHCTX "${UNINSTKEY}" "Publisher" "${MANUFACTURER}"
   WriteRegStr SHCTX "${UNINSTKEY}" "InstallLocation" "$\"$INSTDIR$\""
   WriteRegStr SHCTX "${UNINSTKEY}" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
+  ; Silent/unattended uninstall entry. Windows Settings, winget, Chocolatey
+  ; and other automation look for QuietUninstallString; without it an install
+  ; is reported as "cannot be uninstalled" by those tools.
+  WriteRegStr SHCTX "${UNINSTKEY}" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
   WriteRegDWORD SHCTX "${UNINSTKEY}" "NoModify" "1"
   WriteRegDWORD SHCTX "${UNINSTKEY}" "NoRepair" "1"
 
@@ -1198,6 +1211,13 @@ Section Install
   IntOp $0 $0 + ${ESTIMATEDSIZE}
   IntFmt $0 "0x%08X" $0
   WriteRegDWORD SHCTX "${UNINSTKEY}" "EstimatedSize" "$0"
+
+  ; Complete the add/remove-programs registration. Several installers and
+  ; management tools read these fields to decide whether an entry is valid.
+  GetTime $0 "%Y%m%d"
+  WriteRegStr SHCTX "${UNINSTKEY}" "InstallDate" "$0"
+  WriteRegStr SHCTX "${UNINSTKEY}" "InstallSource" "$\"$INSTDIR$\""
+  WriteRegStr SHCTX "${UNINSTKEY}" "UninstallerPath" "$\"$INSTDIR\uninstall.exe$\""
 
   !if "${HOMEPAGE}" != ""
     WriteRegStr SHCTX "${UNINSTKEY}" "URLInfoAbout" "${HOMEPAGE}"
@@ -1356,7 +1376,7 @@ FunctionEnd
 
 Function un.onUninstFailed
   ${If} $UninstallFailure == ""
-    StrCpy $UninstallFailure "Uninstallation stopped. Close Axolotl Launcher and retry."
+    StrCpy $UninstallFailure "Uninstallation stopped. Close Sulfur Fang Launcher and retry."
   ${EndIf}
   Push "error:$UninstallFailure"
   Call un.ReportInstallerProgress
