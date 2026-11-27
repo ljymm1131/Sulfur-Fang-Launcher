@@ -398,11 +398,12 @@ pub(crate) fn order_auto_routes(
                     .cmp(&right_health.consecutive_failures)
             })
             .then_with(|| {
-                // Automatic content downloads start from the supplied
-                // official URL. Health can still move a failing official
-                // route behind a mirror, but connectivity alone is not a
-                // reason to call a mirror faster.
-                (!is_official_route(left)).cmp(&(!is_official_route(right)))
+                // Sulfur Fang: start content downloads from the domestic
+                // mirror (BMCLAPI) by default, matching PCL's behaviour.
+                // Route health and measured throughput below still promote
+                // whichever source is actually faster, so this only picks
+                // the initial source for unmeasured routes.
+                is_official_route(left).cmp(&is_official_route(right))
             })
             .then_with(|| {
                 (right_health.success_samples > 0)
